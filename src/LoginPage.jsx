@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -10,6 +10,22 @@ export default function LoginPage() {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  // Редирект, если уже авторизован как ORGANIZATION_SUPERVISOR
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        if (decoded.role === "ORGANIZATION_SUPERVISOR") {
+          navigate("/organization-dashboard");
+        }
+      } catch (e) {
+        console.error("Невалидный токен", e);
+        localStorage.removeItem("authToken"); // если токен битый, удалим
+      }
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -56,10 +72,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label
-                  htmlFor="email"
-                  className="block text-gray-700 font-medium mb-1"
-              >
+              <label htmlFor="email" className="block text-gray-700 font-medium mb-1">
                 Почта
               </label>
               <input
@@ -74,10 +87,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label
-                  htmlFor="password"
-                  className="block text-gray-700 font-medium mb-1"
-              >
+              <label htmlFor="password" className="block text-gray-700 font-medium mb-1">
                 Пароль
               </label>
               <input
@@ -101,10 +111,7 @@ export default function LoginPage() {
 
           <p className="mt-6 text-center text-sm text-gray-600">
             Нет аккаунта?{" "}
-            <Link
-                to="/register"
-                className="text-blue-600 hover:underline font-semibold"
-            >
+            <Link to="/register" className="text-blue-600 hover:underline font-semibold">
               Зарегистрироваться
             </Link>
           </p>

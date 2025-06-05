@@ -55,9 +55,9 @@ export default function StudentDashboard() {
             <div className="bg-white p-4 rounded-xl shadow">
               <h3 className="text-lg font-medium mb-4 text-blue-700">Уведомления</h3>
               <ul className="space-y-3 text-sm">
-                <li className="border-b pb-2">📩 Новый комментарий от руководителя.</li>
-                <li className="border-b pb-2">✅ Задание 1 проверено.</li>
-                <li>📄 Отчет принят университетским руководителем.</li>
+                <li className="border-b pb-2">Новый комментарий от руководителя.</li>
+                <li className="border-b pb-2">Задание 1 проверено.</li>
+                <li>Отчет принят университетским руководителем.</li>
               </ul>
             </div>
           </aside>
